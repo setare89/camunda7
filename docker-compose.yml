@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: camunda-postgres
+    environment:
+      POSTGRES_DB: camunda
+      POSTGRES_USER: camunda
+      POSTGRES_PASSWORD: camunda
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U camunda -d camunda"]
+      interval: 5s
+      retries: 5
+    restart: unless-stopped
+
+  camunda:
+    image:  camunda/camunda-bpm-platform:7.23.0
+    container_name: camunda-7
+    environment:
+      DB_DRIVER: org.postgresql.Driver
+      DB_URL: jdbc:postgresql://postgres:5432/camunda
+      DB_USERNAME: camunda
+      DB_PASSWORD: camunda
+      WAIT_FOR: postgres:5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8085:8080"
+    volumes:
+      - ./config/tasklist.js:/camunda/webapps/camunda/app/tasklist/scripts/config.js
+      - ./config/admin.js:/camunda/webapps/camunda/app/admin/scripts/config.js
+      - ./config/cockpit.js:/camunda/webapps/camunda/app/cockpit/scripts/config.js
+      - ./config/welcome.js:/camunda/webapps/camunda/app/welcome/scripts/config.js    
+
+      - ./html/tasklist.html:/camunda/webapps/camunda/app/tasklist/index.html
+      - ./html/admin.html:/camunda/webapps/camunda/app/admin/index.html
+      - ./html/cockpit.html:/camunda/webapps/camunda/app/cockpit/index.html
+     
+
+      - ./locales/tasklist.json:/camunda/webapps/camunda/app/tasklist/locales/en.json
+      - ./locales/admin.json:/camunda/webapps/camunda/app/admin/locales/en.json
+      - ./locales/cockpit.json:/camunda/webapps/camunda/app/cockpit/locales/en.json
+    
+      
+      - ./locales/tasklist.json:/camunda/webapps/camunda/app/tasklist/locales/fa.json
+      - ./locales/admin.json:/camunda/webapps/camunda/app/admin/locales/fa.json
+      - ./locales/cockpit.json:/camunda/webapps/camunda/app/cockpit/locales/fa.json
+      - ./locales/welcome.json:/camunda/webapps/camunda/app/welcome/locales/fa.json
+
+      - ./scripts/custom.js:/camunda/webapps/camunda/app/tasklist/scripts/custom.js
+      - ./scripts/custom.js:/camunda/webapps/camunda/app/admin/scripts/custom.js
+      - ./scripts/custom.js:/camunda/webapps/camunda/app/cockpit/scripts/custom.js
+
+
+      - ./styles/user-styles.css:/camunda/webapps/camunda/app/cockpit/styles/user-styles.css
+      - ./styles/user-styles.css:/camunda/webapps/camunda/app/tasklist/styles/user-styles.css
+      - ./styles/user-styles.css:/camunda/webapps/camunda/app/admin/styles/user-styles.css
+
+
+      
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

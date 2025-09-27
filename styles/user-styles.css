@@ -1,0 +1,4 @@
+/* حذف کامل فوتر */
+footer[cam-widget-footer] {
+  display: none !important;
+}
