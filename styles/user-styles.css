@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 /* حذف کامل فوتر */
 footer[cam-widget-footer] {
   display: none !important;
 }
+=======
+/* حذف کامل فوتر */
+footer[cam-widget-footer] {
+  display: none !important;
+}
+>>>>>>> 81bbbf4248c11ec1402e2f116b096770b0ffbf90
