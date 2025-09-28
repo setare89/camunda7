@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- عنوان و توضیحات سفارشی -->
+    <title>سامانه نوید</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="سامانه مدیریت فرآیندهای نوید" />
+    <meta name="author" content="شرکت شما" />
+
+    <!-- مسیرهای API -->
+    <base href="$BASE"
+          admin-api="$APP_ROOT/api/admin/"
+          cockpit-api="$APP_ROOT/api/cockpit/"
+          tasklist-api="$APP_ROOT/api/tasklist/"
+          welcome-api="$APP_ROOT/api/welcome/"
+          engine-api="$APP_ROOT/api/engine/"
+          app-root="$APP_ROOT"
+          app-name="welcome" />
+
+    <!-- favicon اختصاصی -->
+    <link rel="icon" href="$APP_ROOT/images/jz.jpg">
+
+    <!-- فایل‌های اصلی Camunda -->
+    <script defer src="$APP_ROOT/lib/runtime.js?bust=7.23.0" charset="UTF-8"></script>
+    <script defer src="$APP_ROOT/lib/deps.js?bust=7.23.0" charset="UTF-8"></script>
+    <script defer src="$APP_ROOT/app/welcome/camunda-welcome-bootstrap.js?bust=7.23.0" charset="UTF-8"></script>
+    <link href="$APP_ROOT/app/welcome/camunda-welcome-bootstrap.css?bust=7.23.0" rel="stylesheet">
+
+    <!-- استایل سفارشی -->
+    <link rel="stylesheet"
+          type="text/css"
+          href="$APP_ROOT/app/welcome/styles/user-styles.css?bust=7.23.0">
+  </head>
+  <body ng-controller="WelcomePage as welcomePage">
+    <!-- هدر -->
+    <div cam-widget-header
+         authentication="authentication"
+         user-name="userFullName"
+         current-app="welcome"
+         no-app-switch="true"
+         no-account-menu="true"
+         toggle-navigation="{{ 'TOGGLE_NAVIGATION' | translate }}"
+         sign-out="{{ 'SIGN_OUT_ACTION' | translate }}"
+         my-profile="{{ 'MY_PROFILE' | translate }}"
+         ng-cloak>
+    </div>
+
+    <div notifications-panel class="page-notifications"></div>
+
+    <!-- محتوای اصلی -->
+    <div class="container-fluid" ng-view>
+      <div class="app-splash">
+        <div>
+          <div class="spinner spinner-big"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⚡️ Footer حذف شد ⚡️ -->
+
+    <!-- اسکریپت سفارشی -->
+    <script src="$APP_ROOT/app/welcome/scripts/custom.js"></script>
+  </body>
+</html>
